@@ -10,3 +10,9 @@ variable "namespace_name" {
     default = "mon" # !take this default out when moved to module
 }
 
+variable "app_name" {
+    description = "Name of the app"
+    type = string
+    default = "state-metrics"
+}
+

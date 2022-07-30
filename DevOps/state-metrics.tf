@@ -10,10 +10,10 @@ resource "kubernetes_manifest" "state_metrics_local_sa" {
     kind       = "ServiceAccount"
     metadata = {
       namespace = kubernetes_namespace.mon_local.metadata[0].name
-      name      = "state-metrics"
+      name      = var.app_name
 
       labels = {
-        app = "state-metrics"
+        app = var.app_name
       }
     }
 
@@ -25,7 +25,7 @@ resource "kubernetes_secret" "state_metrics_local_sa_token" {
   provider = kubernetes.local
 
   metadata {
-    name      = "state-metrics-token"
+    name      = "${var.app_name}-token"
     namespace = kubernetes_namespace.mon_local.metadata[0].name
     annotations = {
       "kubernetes.io/service-account.name" = kubernetes_manifest.state_metrics_local_sa.manifest.metadata.name
@@ -39,10 +39,10 @@ resource "kubernetes_cluster_role" "state_metrics_local" {
   provider = kubernetes.local
 
   metadata {
-    name = "state-metrics"
+    name = var.app_name
 
     labels = {
-      app = "state-metrics"
+      app = var.app_name
     }
   }
 
@@ -142,10 +142,10 @@ resource "kubernetes_cluster_role_binding" "state_metrics_local" {
   provider = kubernetes.local
 
   metadata {
-    name = "state-metrics-binding"
+    name = "${var.app_name}-binding"
 
     labels = {
-      app = "state-metrics"
+      app = var.app_name
     }
   }
 
@@ -167,11 +167,11 @@ resource "kubernetes_deployment" "state_metrics_local" {
   provider = kubernetes.local
 
   metadata {
-    name      = "state-metrics"
+    name      = var.app_name
     namespace = kubernetes_namespace.mon_local.metadata[0].name
 
     labels = {
-      app = "state-metrics"
+      app = var.app_name
     }
   }
 
@@ -184,7 +184,7 @@ resource "kubernetes_deployment" "state_metrics_local" {
 
     selector {
       match_labels = {
-        app = "state-metrics"
+        app = var.app_name
       }
     }
 
@@ -194,15 +194,15 @@ resource "kubernetes_deployment" "state_metrics_local" {
       metadata {
         namespace = kubernetes_namespace.mon_local.metadata[0].name
         labels = {
-          app = "state-metrics"
+          app = var.app_name
         }
 
         annotations = {
           # Full DD integradion doc:
           # https://github.com/DataDog/integrations-core/blob/master/kubernetes_state/datadog_checks/kubernetes_state/data/conf.yaml.example
-          "ad.datadoghq.com/state-metrics.check_names"  = jsonencode(["kubernetes_state"])
-          "ad.datadoghq.com/state-metrics.init_configs" = "[{}]"
-          "ad.datadoghq.com/state-metrics.instances" = jsonencode([{
+          "ad.datadoghq.com/${var.app_name}.check_names"  = jsonencode(["kubernetes_state"])
+          "ad.datadoghq.com/${var.app_name}.init_configs" = "[{}]"
+          "ad.datadoghq.com/${var.app_name}.instances" = jsonencode([{
             kube_state_url          = "http://%%host%%:18080/metrics"
             prometheus_timeout      = 30
             min_collection_interval = 30
@@ -239,7 +239,7 @@ resource "kubernetes_deployment" "state_metrics_local" {
           # docker run --rm -it k8s.gcr.io/kube-state-metrics/kube-state-metrics:v1.9.8 --help
           image                    = "k8s.gcr.io/kube-state-metrics/kube-state-metrics:v1.9.8"
           image_pull_policy        = "IfNotPresent"
-          name                     = "state-metrics"
+          name                     = var.app_name
           termination_message_path = "/dev/termination-log"
           command = [
             "/kube-state-metrics",
