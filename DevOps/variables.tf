@@ -4,6 +4,24 @@ variable "kubeconfig_path" {
   default = "~/.kube/config"
 }
 
+variable "requests" {
+  description = "Resource requests"
+  type = map(string)
+  default = {
+    "cpu" = "30m"
+    "memory" = "30Mi"
+  }
+}
+
+variable "limits" {
+  description = "Resource limits"
+  type = map(string)
+  default = {
+    cpu    = "60m"
+    memory = "50Mi"
+  }
+}
+
 variable "docker_image" {
   description = "Docker image to use for single container deployment"
   type = string
@@ -11,11 +29,13 @@ variable "docker_image" {
 }
 
 variable "health_check" {
+  description = "Health check configuration"
+  type = map(string)
   default = {
-    "path" = "/healthz"
-    "port" = "18080"
+    "path"                  = "/healthz"
+    "port"                  = "18080"
     "initial_delay_seconds" = 5
-    "timeout_seconds" = 5
+    "timeout_seconds"       = 5
   }
 }
 
@@ -26,10 +46,12 @@ variable "host_networking" {
 }
 
 variable "docker_cmd" {
+  description = "Docker command to use for single container deployment"
+  type = list(string)
   default = [
     "/kube-state-metrics",
     "--port=18080",
-    "--telemetry-port=18081",
+    "--telemetry-port=18081"
   ]
 }
 
@@ -68,26 +90,27 @@ variable "deployment_strategy" {
 }
 
 variable "cluster_role_rules" {
-  type = list
+  type = list(map(list(string)))
   default = [
-  {
-    verbs      = ["list", "watch"],
-    api_groups = [""],
-    resources = [
-      "configmaps",
-      "secrets",
-      "nodes",
-      "pods",
-      "services",
-      "resourcequotas",
-      "replicationcontrollers",
-      "limitranges",
-      "persistentvolumeclaims",
-      "persistentvolumes",
-      "namespaces",
-      "endpoints"
-    ]
-    },{
+    {
+      verbs      = ["list", "watch"],
+      api_groups = [""],
+      resources = [
+        "configmaps",
+        "secrets",
+        "nodes",
+        "pods",
+        "services",
+        "resourcequotas",
+        "replicationcontrollers",
+        "limitranges",
+        "persistentvolumeclaims",
+        "persistentvolumes",
+        "namespaces",
+        "endpoints"
+      ]
+    },
+    {
       verbs      = ["list", "watch"],
       api_groups = ["extensions"],
       resources  = ["daemonsets", "deployments", "replicasets", "ingresses"]
@@ -147,7 +170,7 @@ variable "cluster_role_rules" {
       api_groups = ["coordination.k8s.io"],
       resources  = ["leases"]
     }
-]
+  ]
 }
 
 locals {
@@ -176,7 +199,7 @@ locals {
               "label_deploy_env",
               "label_type",
               "label_magic_net",
-              "label_canary",
+              "label_canary"
             ]
           }
         }
@@ -188,4 +211,3 @@ locals {
     ])
   }
 }
-

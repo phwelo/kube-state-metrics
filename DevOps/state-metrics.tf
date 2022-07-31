@@ -55,15 +55,8 @@ resource "kubernetes_deployment" "primary_deployment" {
           }
 
           resources {
-            requests = {
-              cpu    = "30m"
-              memory = "30Mi"
-            }
-
-            limits = {
-              cpu    = "60m"
-              memory = "50Mi"
-            }
+            requests = var.requests
+            limits = var.limits
           }
         }
       }
