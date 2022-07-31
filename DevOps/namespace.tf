@@ -1,4 +1,4 @@
-resource "kubernetes_namespace" "mon_local" {
+resource "kubernetes_namespace" "primary" {
   provider = kubernetes.local
 
   metadata {

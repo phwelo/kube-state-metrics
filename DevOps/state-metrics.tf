@@ -3,7 +3,7 @@ resource "kubernetes_deployment" "state_metrics_local" {
 
   metadata {
     name      = var.app_name
-    namespace = kubernetes_namespace.mon_local.metadata[0].name
+    namespace = kubernetes_namespace.primary.metadata[0].name
 
     labels = local.global_labels
   }
@@ -25,7 +25,7 @@ resource "kubernetes_deployment" "state_metrics_local" {
 
     template {
       metadata {
-        namespace = kubernetes_namespace.mon_local.metadata[0].name
+        namespace = kubernetes_namespace.primary.metadata[0].name
         labels = local.global_labels
         annotations = local.annotations
       }

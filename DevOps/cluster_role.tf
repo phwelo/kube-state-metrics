@@ -38,7 +38,7 @@ resource "kubernetes_cluster_role_binding" "primary_role_binding" {
   subject {
     kind      = "ServiceAccount"
     name      = kubernetes_manifest.local_sa.manifest.metadata.name
-    namespace = kubernetes_namespace.mon_local.metadata[0].name
+    namespace = kubernetes_namespace.primary.metadata[0].name
     api_group = ""
   }
 }
