@@ -1,4 +1,4 @@
-resource "kubernetes_cluster_role" "state_metrics_local" {
+resource "kubernetes_cluster_role" "primary_cluster_role" {
   provider = kubernetes.local
 
   metadata {
@@ -31,7 +31,7 @@ resource "kubernetes_cluster_role_binding" "state_metrics_local" {
 
   role_ref {
     kind      = "ClusterRole"
-    name      = kubernetes_cluster_role.state_metrics_local.metadata[0].name
+    name      = kubernetes_cluster_role.primary_cluster_role.metadata[0].name
     api_group = "rbac.authorization.k8s.io"
   }
 
