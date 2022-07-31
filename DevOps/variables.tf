@@ -10,6 +10,15 @@ variable "docker_image" {
   default = "k8s.gcr.io/kube-state-metrics/kube-state-metrics:v1.9.8"
 }
 
+variable "health_check" {
+  default = {
+    "path" = "/healthz"
+    "port" = "18080"
+    "initial_delay_seconds" = 5
+    "timeout_seconds" = 5
+  }
+}
+
 variable "host_networking" {
   description = "Enable host networking"
   type = bool

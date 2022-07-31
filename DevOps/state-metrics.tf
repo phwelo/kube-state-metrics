@@ -46,12 +46,12 @@ resource "kubernetes_deployment" "primary_deployment" {
 
           readiness_probe {
             http_get {
-              path = "/healthz"
-              port = "18080"
+              path = var.health_check["path"]
+              port = var.health_check["port"]
             }
 
-            initial_delay_seconds = 5
-            timeout_seconds       = 5
+            initial_delay_seconds = var.health_check["initial_delay_seconds"]
+            timeout_seconds       = var.health_check["timeout_seconds"]
           }
 
           resources {
