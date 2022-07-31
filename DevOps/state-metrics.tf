@@ -75,6 +75,6 @@ resource "kubernetes_deployment" "state_metrics_local" {
   }
 
   depends_on = [
-    kubernetes_cluster_role_binding.state_metrics_local,
+    kubernetes_cluster_role_binding.primary_role_binding,
   ]
 }

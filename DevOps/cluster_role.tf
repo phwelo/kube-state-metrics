@@ -20,7 +20,7 @@ resource "kubernetes_cluster_role" "primary_cluster_role" {
   }
 }
 
-resource "kubernetes_cluster_role_binding" "state_metrics_local" {
+resource "kubernetes_cluster_role_binding" "primary_role_binding" {
   provider = kubernetes.local
 
   metadata {
