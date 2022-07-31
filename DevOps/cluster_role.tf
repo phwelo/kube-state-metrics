@@ -37,7 +37,7 @@ resource "kubernetes_cluster_role_binding" "state_metrics_local" {
 
   subject {
     kind      = "ServiceAccount"
-    name      = kubernetes_manifest.state_metrics_local_sa.manifest.metadata.name
+    name      = kubernetes_manifest.local_sa.manifest.metadata.name
     namespace = kubernetes_namespace.mon_local.metadata[0].name
     api_group = ""
   }

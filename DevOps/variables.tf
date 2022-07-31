@@ -4,6 +4,12 @@ variable "kubeconfig_path" {
   default = "~/.kube/config"
 }
 
+variable "docker_image" {
+  description = "Docker image to use for single container deployment"
+  type = string
+  default = "k8s.gcr.io/kube-state-metrics/kube-state-metrics:v1.9.8"
+}
+
 variable "host_networking" {
   description = "Enable host networking"
   type = bool

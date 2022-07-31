@@ -32,14 +32,14 @@ resource "kubernetes_deployment" "state_metrics_local" {
 
       spec {
         enable_service_links            = false
-        service_account_name            = kubernetes_manifest.state_metrics_local_sa.manifest.metadata.name
+        service_account_name            = kubernetes_manifest.local_sa.manifest.metadata.name
         automount_service_account_token = true
-        host_network = var.host_networking
+        host_network                    = var.host_networking
 
         container {
           # docker run --rm -it k8s.gcr.io/kube-state-metrics/kube-state-metrics:v1.9.8 --help
-          image                    = "k8s.gcr.io/kube-state-metrics/kube-state-metrics:v1.9.8"
-          image_pull_policy        = "IfNotPresent"
+          image                    = var.docker_image
+          image_pull_policy        = "IfNotPresent" # Other valid options: "Always" or "Never"
           name                     = var.app_name
           termination_message_path = "/dev/termination-log"
           command = [
