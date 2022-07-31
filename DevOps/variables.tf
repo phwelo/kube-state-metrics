@@ -16,6 +16,14 @@ variable "host_networking" {
   default = true
 }
 
+variable "docker_cmd" {
+  default = [
+    "/kube-state-metrics",
+    "--port=18080",
+    "--telemetry-port=18081",
+  ]
+}
+
 variable "namespace_name" {
   description = "Name of the Kubernetes namespace to create"
   type = string

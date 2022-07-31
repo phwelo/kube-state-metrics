@@ -1,4 +1,4 @@
-resource "kubernetes_deployment" "state_metrics_local" {
+resource "kubernetes_deployment" "primary_deployment" {
   provider = kubernetes.local
 
   metadata {
@@ -42,11 +42,7 @@ resource "kubernetes_deployment" "state_metrics_local" {
           image_pull_policy        = "IfNotPresent" # Other valid options: "Always" or "Never"
           name                     = var.app_name
           termination_message_path = "/dev/termination-log"
-          command = [
-            "/kube-state-metrics",
-            "--port=18080",
-            "--telemetry-port=18081",
-          ]
+          command = var.docker_cmd
 
           readiness_probe {
             http_get {
