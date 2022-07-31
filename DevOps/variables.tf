@@ -172,3 +172,28 @@ variable "cluster_role_rules" {
     }
   ]
 }
+
+variable "dd_config" {
+  default = {
+    kube_state_url          = "http://%%host%%:18080/metrics"
+    prometheus_timeout      = 30
+    min_collection_interval = 30
+    telemetry               = true
+    label_joins = {
+      kube_deployment_labels = {
+        labels_to_match = ["deployment"]
+        labels_to_get = [
+          "label_app",
+          "label_deploy_env",
+          "label_type",
+          "label_magic_net",
+          "label_canary"
+        ]
+      }
+    }
+    labels_mapper = {
+      label_app        = "app"
+      label_deploy_env = "deploy_env"
+    }
+  }
+}
