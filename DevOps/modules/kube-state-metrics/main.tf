@@ -1,4 +1,4 @@
-module "single_container_app" {
+module "kube-state-metrics" {
   source = "../single_container_deployment"
   kubeconfig_path = var.kubeconfig_path
   namespace_name = var.namespace_name
