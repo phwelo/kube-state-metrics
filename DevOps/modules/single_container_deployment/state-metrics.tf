@@ -1,6 +1,4 @@
 resource "kubernetes_deployment" "primary_deployment" {
-  provider = kubernetes.local
-
   metadata {
     name      = var.app_name
     namespace = kubernetes_namespace.primary.metadata[0].name

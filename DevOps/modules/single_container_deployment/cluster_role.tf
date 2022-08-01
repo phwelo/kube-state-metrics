@@ -1,6 +1,4 @@
 resource "kubernetes_cluster_role" "primary_cluster_role" {
-  provider = kubernetes.local
-
   metadata {
     name = var.app_name
 
@@ -21,8 +19,6 @@ resource "kubernetes_cluster_role" "primary_cluster_role" {
 }
 
 resource "kubernetes_cluster_role_binding" "primary_role_binding" {
-  provider = kubernetes.local
-
   metadata {
     name = "${var.app_name}-binding"
 
