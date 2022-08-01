@@ -14,6 +14,4 @@ module "single_container_app" {
   deployment_strategy = var.deployment_strategy
   cluster_role_rules = var.cluster_role_rules
   dd_config = var.dd_config
-  
-
 }
