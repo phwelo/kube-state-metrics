@@ -68,6 +68,7 @@ variable "deployment_timeout" {
 }
 
 variable "cluster_role_rules" {
+  description = "List of cluster role RBAC rules"
   type = list(map(list(string)))
   default = [
     {
