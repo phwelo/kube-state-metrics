@@ -1,1 +1,1 @@
-## [Devops](/Devops)
+## [Devops](../Devops)
