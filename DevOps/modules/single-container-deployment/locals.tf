@@ -4,6 +4,7 @@ locals {
       app = var.app_name
   }
 
+  # Datadog Agent configuration
   annotations = {
   # Full DD integration doc:
   # https://github.com/DataDog/integrations-core/blob/master/kubernetes_state/datadog_checks/kubernetes_state/data/conf.yaml.example

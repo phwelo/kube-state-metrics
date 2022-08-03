@@ -3,6 +3,8 @@ cd .\email_screening_question\DevOps
 # getting started
 terraform init
 terraform apply
+kubectl get pods -o wide --all-namespaces | grep state
+kubectl run some-cli --rm -i -t   --image curlimages/curl  --overrides='{"kind":"Pod", "apiVersion":"v1", "spec": {"hostNetwork": true}}'   -- sh
 terraform plan x 1 Million
 terraform state list
 
@@ -25,7 +27,6 @@ mv .\service_account.tf .\modules\single_container_deployment\
 mv .\variables.tf .\modules\single_container_deployment\
 mv .\state-metrics.tf .\modules\single_container_deployment\
 terraform init
-terraform plan
 terraform state list
 terraform state mv kubernetes_cluster_role.primary_cluster_role module.single_container_app.kubernetes_cluster_role.primary_cluster_role
 terraform state mv kubernetes_cluster_role_binding.primary_role_binding module.single_container_app.kubernetes_cluster_role_binding.primary_role_binding
@@ -35,6 +36,7 @@ terraform state mv kubernetes_namespace.primary module.single_container_app.kube
 terraform state mv kubernetes_secret.local_sa_token module.single_container_app.kubernetes_secret.local_sa_token
 
 # Moving into kube-state-metrics module
+terraform init
 terraform state list
 terraform state mv module.single_container_app.kubernetes_cluster_role.primary_cluster_role module.single_container_app.module.single_container_app.kubernet…
 terraform state mv module.single_container_app.kubernetes_cluster_role_binding.primary_role_binding module.single_container_app.module.single_container_app.…
@@ -55,6 +57,7 @@ terraform state mv module.single_container_app.module.single_container_app.kuber
 
 # Scoped out Variables
 terraform plan x 1 Million
+kubectl run some-cli --rm -i -t   --image curlimages/curl  --overrides='{"kind":"Pod", "apiVersion":"v1", "spec": {"hostNetwork": true}}'   -- sh
 terraform-docs markdown table --output-file README.md --output-mode inject .\modules\kube-state-metrics\
 terraform-docs markdown table --output-file README.md --output-mode inject .\modules\single_container_deployment\
 tfsec > tfsec_result.txt

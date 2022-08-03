@@ -2,7 +2,6 @@ resource "kubernetes_deployment" "primary_deployment" {
   metadata {
     name      = var.app_name
     namespace = kubernetes_namespace.primary.metadata[0].name
-
     labels = local.global_labels
   }
 
