@@ -1,5 +1,5 @@
 module "kube-state-metrics" {
-  source             = "../single_container_deployment"
+  source             = "../single-container-deployment"
   namespace_name     = var.namespace_name
   app_name           = var.app_name
   docker_image       = var.docker_image
