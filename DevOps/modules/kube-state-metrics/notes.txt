@@ -1,0 +1,63 @@
+cd .\email_screening_question\DevOps
+
+# getting started
+terraform init
+terraform apply
+terraform plan x 1 Million
+terraform state list
+
+# rename resource to more generic naming in preparation for single-container module
+terraform state mv kubernetes_manifest.state_metrics_local_sa kubernetes_manifest.local_sa
+terraform state mv kubernetes_secret.state_metrics_local_sa_token kubernetes_secret.local_sa_token
+terraform state mv kubernetes_cluster_role.state_metrics_local kubernetes_cluster_role.primary_cluster_role
+terraform state mv kubernetes_cluster_role_binding.state_metrics_local kubernetes_cluster_role_binding.primary_role_binding
+terraform state mv kubernetes_namespace.mon_local kubernetes_namespace.primary
+terraform state mv kubernetes_deployment.state_metrics_local kubernetes_deployment.primary_deployment
+
+# moving module into /modules/single_container_deployment
+terraform plan x 1 Million
+mkdir -p modules/single_container_deployment
+cd modules
+mv .\cluster_role.tf .\modules\single_container_deployment\
+mv .\locals.tf .\modules\single_container_deployment\
+mv .\namespace.tf .\modules\single_container_deployment\
+mv .\service_account.tf .\modules\single_container_deployment\
+mv .\variables.tf .\modules\single_container_deployment\
+mv .\state-metrics.tf .\modules\single_container_deployment\
+terraform init
+terraform plan
+terraform state list
+terraform state mv kubernetes_cluster_role.primary_cluster_role module.single_container_app.kubernetes_cluster_role.primary_cluster_role
+terraform state mv kubernetes_cluster_role_binding.primary_role_binding module.single_container_app.kubernetes_cluster_role_binding.primary_role_binding
+terraform state mv kubernetes_deployment.primary_deployment module.single_container_app.kubernetes_deployment.primary_deployment
+terraform state mv kubernetes_manifest.local_sa module.single_container_app.kubernetes_manifest.local_sa
+terraform state mv kubernetes_namespace.primary module.single_container_app.kubernetes_namespace.primary
+terraform state mv kubernetes_secret.local_sa_token module.single_container_app.kubernetes_secret.local_sa_token
+
+# Moving into kube-state-metrics module
+terraform state list
+terraform state mv module.single_container_app.kubernetes_cluster_role.primary_cluster_role module.single_container_app.module.single_container_app.kubernet…
+terraform state mv module.single_container_app.kubernetes_cluster_role_binding.primary_role_binding module.single_container_app.module.single_container_app.…
+terraform state mv module.single_container_app.kubernetes_deployment.primary_deployment module.single_container_app.module.single_container_app.kubernetes_d…
+terraform state mv module.single_container_app.kubernetes_manifest.local_sa module.single_container_app.module.single_container_app.kubernetes_manifest.loca…
+terraform state mv module.single_container_app.kubernetes_namespace.primary module.single_container_app.module.single_container_app.kubernetes_namespace.pri…
+terraform state mv module.single_container_app.kubernetes_secret.local_sa_token module.single_container_app.module.single_container_app.kubernetes_secret.lo…
+
+# Could've renamed that first but didn't, womp womp
+terraform init
+terraform state list
+terraform state mv module.single_container_app.module.single_container_app.kubernetes_cluster_role.primary_cluster_role module.kube-state-metrics.module.kub…
+terraform state mv module.single_container_app.module.single_container_app.kubernetes_cluster_role_binding.primary_role_binding module.kube-state-metrics.mo…
+terraform state mv module.single_container_app.module.single_container_app.kubernetes_deployment.primary_deployment module.kube-state-metrics.module.kube-st…
+terraform state mv module.single_container_app.module.single_container_app.kubernetes_manifest.local_sa module.kube-state-metrics.module.kube-state-metrics.…
+terraform state mv module.single_container_app.module.single_container_app.kubernetes_namespace.primary module.kube-state-metrics.module.kube-state-metrics.…
+terraform state mv module.single_container_app.module.single_container_app.kubernetes_secret.local_sa_token module.kube-state-metrics.module.kube-state-metr…
+
+# Scoped out Variables
+terraform plan x 1 Million
+terraform-docs markdown table --output-file README.md --output-mode inject .\modules\kube-state-metrics\
+terraform-docs markdown table --output-file README.md --output-mode inject .\modules\single_container_deployment\
+tfsec > tfsec_result.txt
+docker run --rm -it -v "$(pwd):/iac" -w /iac/modules/kube-state-metrics tenable/terrascan scan > terrascan.txt
+mv .\terrascan.txt .\scan_results\terrascan-result.txt
+mv .\tfsec_result.txt .\scan_results\

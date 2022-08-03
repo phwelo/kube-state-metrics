@@ -1,4 +1,4 @@
 provider "kubernetes" {
-  alias       = "local"
+  alias = "local"
   config_path = pathexpand("~/.kube/config")
 }
