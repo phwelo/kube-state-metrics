@@ -1,7 +1,6 @@
 resource "kubernetes_cluster_role" "primary_cluster_role" {
   metadata {
     name = var.app_name
-
     labels = local.global_labels
   }
 
@@ -21,7 +20,6 @@ resource "kubernetes_cluster_role" "primary_cluster_role" {
 resource "kubernetes_cluster_role_binding" "primary_role_binding" {
   metadata {
     name = "${var.app_name}-binding"
-
     labels = local.global_labels
   }
 

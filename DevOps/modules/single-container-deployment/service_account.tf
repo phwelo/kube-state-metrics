@@ -9,10 +9,9 @@ resource "kubernetes_manifest" "local_sa" {
     metadata = {
       namespace = kubernetes_namespace.primary.metadata[0].name
       name      = var.app_name
-
       labels = local.global_labels
     }
-
+    
     automountServiceAccountToken = false
   }
 }

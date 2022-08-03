@@ -1,65 +1,21 @@
-2022-08-02T00:26:05.663Z	[31merror[0m	commons/extract-container-images.go:268	error fetching containers from k8s resource: /iac/modules/single_container_deployment/state-metrics.tf:39,38-41: Variables not allowed; Variables may not be used here.
-2022-08-02T00:26:05.663Z	[31merror[0m	commons/extract-container-images.go:268	error fetching containers from k8s resource: /iac/modules/single_container_deployment/state-metrics.tf:41,38-41: Variables not allowed; Variables may not be used here.
-
-
-Scan Errors -
-
-	IaC Type            :	arm
-	Directory           :	/iac/modules/kube-state-metrics
-	Error Message       :	ARM files not found in the directory /iac/modules/kube-state-metrics
-	
-	-----------------------------------------------------------------------
-	
-	IaC Type            :	docker
-	Directory           :	/iac/modules/kube-state-metrics
-	Error Message       :	Dockerfile not found in the directory /iac/modules/kube-state-metrics
-	
-	-----------------------------------------------------------------------
-	
-	IaC Type            :	cft
-	Directory           :	/iac/modules/kube-state-metrics
-	Error Message       :	cft files not found in the directory /iac/modules/kube-state-metrics
-	
-	-----------------------------------------------------------------------
-	
-	IaC Type            :	k8s
-	Directory           :	/iac/modules/kube-state-metrics
-	Error Message       :	kubernetes files not found in the directory /iac/modules/kube-state-metrics
-	
-	-----------------------------------------------------------------------
-	
-	IaC Type            :	kustomize
-	Directory           :	/iac/modules/kube-state-metrics
-	Error Message       :	kustomization.y(a)ml file not found in the directory /iac/modules/kube-state-metrics
-	
-	-----------------------------------------------------------------------
-	
-	IaC Type            :	helm
-	Directory           :	/iac/modules/kube-state-metrics
-	Error Message       :	no helm charts found in directory /iac/modules/kube-state-metrics
-	
-	-----------------------------------------------------------------------
-	
-
-
 Violation Details -
     
-	Description    :	[38;5;40mApply Security Context to Your Pods and Containers[0m
-	File           :	[38;5;31;1m../single_container_deployment/state-metrics.tf[0m
+	Description    :	Apply Security Context to Your Pods and Containers
+	File           :	../single_container_deployment/state-metrics.tf
 	Module Name    :	kube-state-metrics
 	Plan Root      :	./
 	Line           :	1
-	Severity       :	[38;5;179mMEDIUM[0m
+	Severity       :	MEDIUM
 	-----------------------------------------------------------------------
 	
 
 Scan Summary -
 
-	File/Folder         :	[38;5;31;1m/iac/modules/kube-state-metrics[0m
+	File/Folder         :	/iac/modules/kube-state-metrics
 	IaC Type            :	terraform
 	Scanned At          :	2022-08-02 00:26:06.620110261 +0000 UTC
-	[48;5;251;38;5;0mPolicies Validated[0m  :	42
+	Policies Validated  :	42
 	Violated Policies   :	1
-	[38;5;184mLow[0m                 :	[38;5;184m0[0m
-	[38;5;179mMedium[0m              :	[38;5;179m1[0m
-	[38;5;196mHigh[0m                :	[38;5;196m0[0m
+	Low            		  :	4m0
+	Medium        		  :	9m1
+	High        		    :	6m0
