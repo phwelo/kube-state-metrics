@@ -1,44 +1,5 @@
-- [Overview](#overview)
-  - [Requirements](#requirements)
-- [Task](#task)
-  - [How to check](#how-to-check)
-- [Evaluation Criteria](#evaluation-criteria)
+Thanks for considering me for you devops position!
 
-# Overview
-Usually it's more comfortable to use Terraform modules than just "long" manifests. This repo contains `state-metrics` K8s service namespace and deployment manifest.
-
-## Requirements
-* Local K8s cluster >= v1.24
-
-# Task
-* Install `state-metrics` with given terraform manifests (you may need to update `config_path` in the `_provider.tf` file)
-  ```
-  terraform init
-  terraform apply
-  ```
-* Modify code to make `state-metrics` to be presented as module.
-* Migrate currently deployed service from "plain manifest" to terraform module.
-  * No pod should be recreated during the migration
-  * Module should have some input variables to customize created resources
-* Provide module and all related migration commands in the solution
-
-## How to check
-In order to check if `state-metrics` is working just follow these steps:
-
-1. Get `state-metrics` pod ip with
-  ```sh
-  kubectl get pods -o wide --all-namespaces | grep state
-  ```
-2. Run some container with `curl` installed inside K8s with shell. For example:
-  ```sh
-  kubectl run some-cli --rm -i -t   --image curlimages/curl  --overrides='{"kind":"Pod", "apiVersion":"v1", "spec": {"hostNetwork": true}}'   -- sh
-  ```
-3. Run
-  ```sh
-  curl ${STATE_METRICS_POD_IP}:18081/metrics
-  ```
-
-# Evaluation Criteria
-We will be evaluating your submission based on the following criteria, in no particular order:
-* Readability: Consistent styling, aptly named functions, and variables.
-* Correctness: In other words, the end product should be something that you wouldn't hesitate to hit shippit on and productionize!
+```
+This project was a lot of fun and I hope that you like what I've done with it. In order to demonstrate an understanding of abstracting infrastructure at the right level, I've gone ahead and expanded the original Terraform code into a single-container, single-pod application module. I then used this module to build out a kube-state-metrics deployment. The intention here is for the modules to make sense in a somewhat-opinionated infrastructure where many values can remain default for the majority of use-cases, simplifying the process for devs who follow default processes. Since a kube-state-metrics module wouldn't necessarily need any parameters at all in this model, I've added a few very high level params to the module resource in the root project as an example.  
+```
